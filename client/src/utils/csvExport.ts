@@ -1,6 +1,36 @@
 import type { NormalizedLead } from '../types/data.ts';
 
-const FORMULA_TRIGGERS = ['=', '+', '-', '@', '\t', '\r'];
+const FORMULA_CHARS = ['=', '@', '\t', '\r'];
+
+/**
+ * Checks whether a cell value is a potentially malicious spreadsheet formula (CWE-1236).
+ * Distinguishes legitimate international phone numbers (e.g. "+1 (555) 019-2834") from formulas.
+ */
+export function isFormulaInjection(str: string): boolean {
+  if (!str) return false;
+  const first = str.charAt(0);
+
+  // Dangerous triggers: '=', '@', tab, carriage return
+  if (FORMULA_CHARS.includes(first)) {
+    return true;
+  }
+
+  // '+' and '-' triggers: check if it's NOT a phone number or ordinary number
+  if (first === '+' || first === '-') {
+    // If it's a phone number like +1 (555) 019-2834 or +44 20 ..., it's safe text
+    if (/^[\+\-]\d[\d\s\(\)\-\.]+$/.test(str)) {
+      return false;
+    }
+    // If it's a plain integer or decimal like +100 or -42.5, it's safe numeric text
+    if (/^[\+\-]\d+(\.\d+)?$/.test(str)) {
+      return false;
+    }
+    // Otherwise it's something like +cmd, -2+3, etc.
+    return true;
+  }
+
+  return false;
+}
 
 /**
  * Sanitizes a string to prevent CSV Formula Injection (CWE-1236).
@@ -10,7 +40,7 @@ export function sanitizeForCsv(val: unknown): string {
   const str = String(val).trim();
   if (str.length === 0) return '';
 
-  if (FORMULA_TRIGGERS.includes(str.charAt(0))) {
+  if (isFormulaInjection(str)) {
     return `'${str}`;
   }
   return str;
@@ -45,8 +75,7 @@ export function exportLeadsToCsv(records: NormalizedLead[], filename = 'flowpilo
     'Website',
     'Tier',
     'AI Icebreaker',
-    'Notes',
-    'Cleaned Fields'
+    'Notes'
   ];
 
   const rows = records.map((lead) => [
@@ -60,8 +89,7 @@ export function exportLeadsToCsv(records: NormalizedLead[], filename = 'flowpilo
     escapeCsvCell(lead.website),
     escapeCsvCell(lead.tier || 'Unassigned'),
     escapeCsvCell(lead.icebreaker || ''),
-    escapeCsvCell(lead.notes),
-    escapeCsvCell(lead.cleanedFields.join('; '))
+    escapeCsvCell(lead.notes)
   ]);
 
   const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\r\n');
@@ -77,4 +105,3 @@ export function exportLeadsToCsv(records: NormalizedLead[], filename = 'flowpilo
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
-

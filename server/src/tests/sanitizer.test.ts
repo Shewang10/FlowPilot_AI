@@ -7,16 +7,21 @@ test('CSV Formula Injection Prevention', async (t) => {
     assert.equal(sanitizeForCsv('=SUM(A1:A10)'), "'=SUM(A1:A10)");
   });
 
-  await t.test('neutralizes plus sign', () => {
-    assert.equal(sanitizeForCsv('+1+1'), "'+1+1");
+  await t.test('neutralizes dangerous plus formulas', () => {
+    assert.equal(sanitizeForCsv('+cmd|"/C calc"!A0'), "'+cmd|\"/C calc\"!A0");
   });
 
-  await t.test('neutralizes minus sign', () => {
+  await t.test('neutralizes minus sign formulas', () => {
     assert.equal(sanitizeForCsv('-cmd|"/C calc"!A0'), "'-cmd|\"/C calc\"!A0");
   });
 
   await t.test('neutralizes at sign', () => {
     assert.equal(sanitizeForCsv('@SUM'), "'@SUM");
+  });
+
+  await t.test('preserves legitimate international phone numbers without adding quotes', () => {
+    assert.equal(sanitizeForCsv('+1 (555) 019-2834'), '+1 (555) 019-2834');
+    assert.equal(sanitizeForCsv('+44 20 7946 0950'), '+44 20 7946 0950');
   });
 
   await t.test('leaves benign text unmodified', () => {
@@ -48,4 +53,3 @@ test('extractDomain utility', async (t) => {
     assert.equal(extractDomain('sarah.smith@globallogistics.io'), 'globallogistics.io');
   });
 });
-

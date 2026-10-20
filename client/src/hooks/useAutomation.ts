@@ -110,14 +110,14 @@ const SAMPLE_MESSY_LEADS: RawLead[] = [
     'Notes': 'Private equity firm investing in lower middle-market B2B services.'
   },
   {
-    'First Name': '=1+1',
-    'Last Name': 'Malicious',
-    'Company': 'Injected Co',
-    'Title': 'Hacker',
-    'Email': 'test@injected.com',
-    'Phone': '555-000-0000',
-    'Website': 'http://test.com',
-    'Notes': 'Formula injection security test record.'
+    'First Name': 'marcus',
+    'Last Name': 'VANCE',
+    'Company': 'Vance Media Group',
+    'Title': 'Head of Growth',
+    'Email': 'marcus.v@vancemedia.co',
+    'Phone': '(555) 019-3388',
+    'Website': 'vancemedia.co',
+    'Notes': 'B2B performance marketing agency scaling inbound demand.'
   }
 ];
 

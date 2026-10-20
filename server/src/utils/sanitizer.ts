@@ -2,11 +2,41 @@
  * CSV Formula Injection Sanitizer and string normalization helpers.
  */
 
-const FORMULA_TRIGGERS = ['=', '+', '-', '@', '\t', '\r'];
+const FORMULA_CHARS = ['=', '@', '\t', '\r'];
+
+/**
+ * Checks whether a cell value is a potentially malicious spreadsheet formula (CWE-1236).
+ * Distinguishes legitimate international phone numbers (e.g. "+1 (555) 019-2834") from formulas.
+ */
+export function isFormulaInjection(str: string): boolean {
+  if (!str) return false;
+  const first = str.charAt(0);
+
+  // Dangerous triggers: '=', '@', tab, carriage return
+  if (FORMULA_CHARS.includes(first)) {
+    return true;
+  }
+
+  // '+' and '-' triggers: check if it's NOT a phone number or ordinary number
+  if (first === '+' || first === '-') {
+    // If it's a phone number like +1 (555) 019-2834 or +44 20 ..., it's safe text
+    if (/^[\+\-]\d[\d\s\(\)\-\.]+$/.test(str)) {
+      return false;
+    }
+    // If it's a plain integer or decimal like +100 or -42.5, it's safe numeric text
+    if (/^[\+\-]\d+(\.\d+)?$/.test(str)) {
+      return false;
+    }
+    // Otherwise it's something like +cmd, -2+3, etc.
+    return true;
+  }
+
+  return false;
+}
 
 /**
  * Sanitizes a string to prevent CSV Formula Injection (CWE-1236).
- * Prepend a single quote if the value begins with a formula trigger.
+ * Prepends a single quote only if the value is an actual formula trigger.
  */
 export function sanitizeForCsv(value: string | undefined | null): string {
   if (value === undefined || value === null) {
@@ -15,9 +45,7 @@ export function sanitizeForCsv(value: string | undefined | null): string {
   const str = String(value).trim();
   if (str.length === 0) return '';
 
-  const firstChar = str.charAt(0);
-  if (FORMULA_TRIGGERS.includes(firstChar)) {
-    // Neutralize formula trigger
+  if (isFormulaInjection(str)) {
     return `'${str}`;
   }
   return str;
@@ -74,4 +102,3 @@ export function extractDomain(input: string): string {
 
   return cleaned.trim();
 }
-

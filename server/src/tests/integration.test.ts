@@ -60,10 +60,16 @@ test('End-to-End Pipeline on Sample Messy Leads CSV', async (t) => {
 
     // Verify JOHN DOE became John Doe
     assert.equal(cleaned[0]?.fullName, 'John Doe');
-    // Verify phone normalized
+    // Verify phone normalized without rogue quotes
     assert.equal(cleaned[0]?.phone, '+1 (555) 019-2834');
     // Verify website normalized
     assert.equal(cleaned[0]?.website, 'https://acmecorp.com');
+
+    // Verify marcus VANCE was cleaned
+    const marcus = cleaned.find((r) => r.firstName === 'Marcus');
+    assert.ok(marcus, 'Marcus Vance should be present and normalized');
+    assert.equal(marcus?.phone, '+1 (555) 019-3388');
+    assert.equal(marcus?.website, 'https://vancemedia.co');
   });
 
   await t.test('Step 2: Deduplication across email and company domain', () => {
@@ -74,12 +80,14 @@ test('End-to-End Pipeline on Sample Messy Leads CSV', async (t) => {
     assert.equal(dedupe.uniqueRecords.length, 8, 'Should preserve 8 unique leads');
   });
 
-  await t.test('Step 3: Formula Injection Protection on Malicious Row', () => {
-    const maliciousRow = rawData.find((r) => r['First Name']?.startsWith('='));
-    assert.ok(maliciousRow, 'Malicious formula row should exist in sample data');
+  await t.test('Step 3: Formula Injection Protection vs Clean Phone Numbers', () => {
+    // Malicious formula gets escaped
+    assert.equal(sanitizeForCsv('=1+1'), "'=1+1");
+    assert.equal(sanitizeForCsv('=SUM(A1:A10)'), "'=SUM(A1:A10)");
+    assert.equal(sanitizeForCsv('+cmd|"/C calc"!A0'), "'+cmd|\"/C calc\"!A0");
 
-    const sanitized = sanitizeForCsv(maliciousRow['First Name']);
-    assert.equal(sanitized, "'=1+1", 'Must prefix formula with single quote');
+    // Clean phone number does NOT get escaped
+    assert.equal(sanitizeForCsv('+1 (555) 019-2834'), '+1 (555) 019-2834');
   });
 
   await t.test('Step 4: AI Enrichment Generation', () => {
@@ -106,4 +114,3 @@ test('Resilience on Malformed CSV File', async () => {
   assert.ok(Array.isArray(cleaned), 'Cleaner must return array without crashing');
   assert.ok(cleaned.length > 0, 'Should extract salvageable rows');
 });
-
