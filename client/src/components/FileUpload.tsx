@@ -12,7 +12,7 @@ interface FileUploadProps {
   isProcessing: boolean;
 }
 
-const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB limit for free local processing
+const MAX_FILE_SIZE_BYTES = 25 * 1024 * 1024; // 25MB limit (supports 50,000+ rows)
 
 export const FileUpload: React.FC<FileUploadProps> = ({
   onDataLoaded,

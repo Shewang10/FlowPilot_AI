@@ -4,7 +4,7 @@ import { deduplicateLeads } from '../services/deduplicator.js';
 import { enrichLeadsWithGemini } from '../services/gemini.js';
 import type { ProcessRequest, ProcessResponse, ProcessSummary } from '../types/data.js';
 
-const MAX_ROWS = 5000;
+const MAX_ROWS = 25000;
 
 export async function handleProcessLeads(req: Request, res: Response): Promise<void> {
   const startTime = Date.now();
