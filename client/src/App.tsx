@@ -7,6 +7,7 @@ import { DataPreview } from './components/DataPreview.tsx';
 import { TaskSelector } from './components/TaskSelector.tsx';
 import { ResultsTable } from './components/ResultsTable.tsx';
 import { useAutomation } from './hooks/useAutomation.ts';
+import logoSrc from './assets/logo.png';
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -156,8 +157,11 @@ export default function App() {
 
       {/* Footer */}
       <footer className="border-t border-slate-900 bg-slate-950 py-6 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>FlowPilot AI &bull; Portfolio-Grade AI Business Automation Studio</span>
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center space-x-3">
+            <img src={logoSrc} alt="FlowPilot AI" className="h-7 w-auto opacity-70" />
+            <span>Portfolio-Grade AI Business Automation Studio</span>
+          </div>
           <span>100% Free-Tier Architecture &bull; Built with React, Vite & Node.js</span>
         </div>
       </footer>
