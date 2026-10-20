@@ -57,17 +57,17 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-[#0b1324] border border-slate-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-white border border-slate-200 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-[#080e1c]">
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
           <div className="flex items-center space-x-2">
-            <Key className="h-5 w-5 text-cyan-400" />
-            <h3 className="text-base font-semibold text-white">Automation Studio Settings</h3>
+            <Key className="h-5 w-5 text-blue-600" />
+            <h3 className="text-base font-bold text-slate-900">Automation Studio Settings</h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors cursor-pointer"
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors cursor-pointer"
           >
             <X className="h-5 w-5" />
           </button>
@@ -76,15 +76,15 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         {/* Modal Body */}
         <div className="p-6 space-y-5">
           {/* Demo Mode Toggle */}
-          <div className="flex items-center justify-between p-4 rounded-xl bg-[#0e182e]/60 border border-slate-800">
+          <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-200">
             <div>
-              <div className="text-sm font-semibold text-white flex items-center space-x-2">
+              <div className="text-sm font-bold text-slate-900 flex items-center space-x-2">
                 <span>Deterministic Offline Demo Mode</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                   100% Free
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 mt-0.5">
                 Uses local deterministic algorithms. Requires zero API keys and 0 internet requests.
               </p>
             </div>
@@ -95,13 +95,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 onChange={(e) => onToggleDemoMode(e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 shadow-inner"></div>
+              <div className="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
             </label>
           </div>
 
           {/* Gemini API Key Configuration */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
               Google Gemini Flash API Key (Optional)
             </label>
             <div className="relative">
@@ -110,16 +110,16 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 value={inputKey}
                 onChange={(e) => setInputKey(e.target.value)}
                 placeholder="AIzaSy..."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#070c17] border border-slate-700/80 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500 transition-colors"
               />
             </div>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-500">
               Get a free API key at{' '}
               <a
                 href="https://aistudio.google.com/app/apikey"
                 target="_blank"
                 rel="noreferrer"
-                className="text-cyan-400 underline hover:text-emerald-300 transition-colors"
+                className="text-blue-600 underline hover:text-blue-700 font-medium"
               >
                 Google AI Studio
               </a>
@@ -132,25 +132,25 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <button
               onClick={handleTestKey}
               disabled={testing || !inputKey.trim()}
-              className="inline-flex items-center space-x-1.5 px-3 py-2 rounded-lg bg-blue-950/40 hover:bg-blue-900/40 text-xs font-medium text-blue-200 border border-blue-800/60 disabled:opacity-50 transition-colors cursor-pointer"
+              className="inline-flex items-center space-x-1.5 px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-xs font-semibold text-blue-700 border border-blue-200 disabled:opacity-50 transition-colors cursor-pointer"
             >
               {testing ? (
-                <RefreshCw className="h-3.5 w-3.5 animate-spin text-cyan-400" />
+                <RefreshCw className="h-3.5 w-3.5 animate-spin text-blue-600" />
               ) : (
-                <Zap className="h-3.5 w-3.5 text-cyan-400" />
+                <Zap className="h-3.5 w-3.5 text-blue-600" />
               )}
               <span>{testing ? 'Testing...' : 'Test Connection'}</span>
             </button>
             {testResult && (
               <div
-                className={`text-xs flex items-center space-x-1.5 ${
-                  testResult.valid ? 'text-emerald-400' : 'text-amber-400'
+                className={`text-xs flex items-center space-x-1.5 font-medium ${
+                  testResult.valid ? 'text-emerald-700' : 'text-amber-700'
                 }`}
               >
                 {testResult.valid ? (
-                  <CheckCircle className="h-3.5 w-3.5 shrink-0" />
+                  <CheckCircle className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
                 ) : (
-                  <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                  <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-600" />
                 )}
                 <span className="truncate max-w-[280px]">{testResult.message}</span>
               </div>
@@ -158,10 +158,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* Data Privacy & Quota Notice */}
-          <div className="p-3.5 rounded-xl bg-[#070c17]/90 border border-slate-800 text-xs text-slate-400 space-y-1.5">
-            <div className="flex items-center space-x-1.5 text-slate-300 font-semibold">
-              <Shield className="h-4 w-4 text-cyan-400" />
-              <span>Free-Tier Privacy & Compliance Note</span>
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1.5">
+            <div className="flex items-center space-x-1.5 text-slate-800 font-bold">
+              <Shield className="h-4 w-4 text-blue-600" />
+              <span>Free-Tier Privacy &amp; Compliance Note</span>
             </div>
             <p className="leading-relaxed">
               Google AI Studio free tier logs prompt traffic for model training. Do not submit sensitive PII or confidential company data. Keep <strong>Demo Mode</strong> active for confidential client datasets.
@@ -170,16 +170,16 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 bg-[#080e1c] border-t border-slate-800 flex items-center justify-end space-x-3">
+        <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end space-x-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-xs font-medium text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="px-4 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-400 hover:from-blue-500 hover:to-emerald-300 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-500 hover:from-blue-700 hover:to-emerald-600 text-white font-bold text-xs shadow-xs transition-all cursor-pointer"
           >
             Save Settings
           </button>
