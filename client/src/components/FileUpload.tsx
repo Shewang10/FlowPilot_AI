@@ -87,15 +87,15 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     <div className="space-y-3">
       {currentFilename ? (
         // File Loaded State
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+        <div className="p-4 rounded-2xl bg-[#0c1527]/80 border border-slate-800 flex items-center justify-between shadow-lg shadow-black/20">
           <div className="flex items-center space-x-3">
-            <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-600/20 to-cyan-400/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-sm shadow-cyan-500/10">
               <FileSpreadsheet className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
                 <span className="font-semibold text-sm text-white">{currentFilename}</span>
-                <span className="inline-flex items-center space-x-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="inline-flex items-center space-x-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
                   <CheckCircle2 className="h-3 w-3" />
                   <span>{rowCount} rows detected</span>
                 </span>
@@ -107,7 +107,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           <button
             onClick={onReset}
             disabled={isProcessing}
-            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-xl transition-colors disabled:opacity-50"
+            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800/60 rounded-xl transition-colors disabled:opacity-50 cursor-pointer"
             title="Upload different file"
           >
             <RotateCcw className="h-4 w-4" />
@@ -125,8 +125,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           onClick={() => fileInputRef.current?.click()}
           className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
             isDragging
-              ? 'border-indigo-500 bg-indigo-500/5'
-              : 'border-slate-800 hover:border-slate-700 bg-slate-900/40 hover:bg-slate-900/60'
+              ? 'border-cyan-400 bg-cyan-500/10 shadow-lg shadow-cyan-500/10'
+              : 'border-slate-800 hover:border-cyan-500/40 bg-[#0a1222]/50 hover:bg-[#0c162a]/70'
           }`}
         >
           <input
@@ -137,7 +137,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             className="hidden"
           />
           <div className="flex flex-col items-center justify-center space-y-3">
-            <div className="h-12 w-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-md">
+            <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-blue-600/20 via-cyan-500/15 to-emerald-400/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-md shadow-cyan-500/10">
               <UploadCloud className="h-6 w-6" />
             </div>
             <div>
@@ -155,7 +155,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                   e.stopPropagation();
                   onLoadSample();
                 }}
-                className="text-xs font-medium text-indigo-400 hover:text-indigo-300 underline underline-offset-4"
+                className="text-xs font-semibold text-cyan-400 hover:text-emerald-400 underline underline-offset-4 transition-colors cursor-pointer"
               >
                 Or load synthetic messy lead dataset
               </button>
@@ -173,4 +173,3 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     </div>
   );
 };
-

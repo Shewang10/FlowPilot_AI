@@ -54,29 +54,29 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
     <div className="space-y-6">
       {/* Metrics Summary Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+        <div className="p-4 rounded-2xl bg-[#0c1527]/70 border border-slate-800 shadow-lg shadow-black/20">
           <span className="text-[11px] text-slate-400 font-medium">Input Rows</span>
           <div className="text-xl font-bold text-white mt-1">{summary.totalInputRows}</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+        <div className="p-4 rounded-2xl bg-[#0c1527]/70 border border-slate-800 shadow-lg shadow-black/20">
           <span className="text-[11px] text-slate-400 font-medium">Cleaned Fields</span>
-          <div className="text-xl font-bold text-indigo-400 mt-1">{summary.cleanedCount}</div>
+          <div className="text-xl font-bold text-cyan-400 mt-1">{summary.cleanedCount}</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+        <div className="p-4 rounded-2xl bg-[#0c1527]/70 border border-slate-800 shadow-lg shadow-black/20">
           <span className="text-[11px] text-slate-400 font-medium">Duplicates Removed</span>
           <div className="text-xl font-bold text-rose-400 mt-1">{summary.duplicatesFound}</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+        <div className="p-4 rounded-2xl bg-[#0c1527]/70 border border-slate-800 shadow-lg shadow-black/20">
           <span className="text-[11px] text-slate-400 font-medium">Cleaned Leads Ready</span>
           <div className="text-xl font-bold text-emerald-400 mt-1">{summary.uniqueRowsRemaining}</div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 col-span-2 sm:col-span-1">
+        <div className="p-4 rounded-2xl bg-[#0c1527]/70 border border-slate-800 col-span-2 sm:col-span-1 shadow-lg shadow-black/20">
           <span className="text-[11px] text-slate-400 font-medium">Processing Time</span>
-          <div className="text-xl font-bold text-cyan-400 mt-1 flex items-center space-x-1">
+          <div className="text-xl font-bold text-blue-400 mt-1 flex items-center space-x-1">
             <Clock className="h-4 w-4 shrink-0" />
             <span>{(summary.durationMs / 1000).toFixed(2)}s</span>
           </div>
@@ -84,57 +84,57 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
       </div>
 
       {/* Table Container */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden shadow-xl">
+      <div className="rounded-2xl border border-slate-800 bg-[#0c1527]/70 overflow-hidden shadow-2xl shadow-black/30">
         {/* Table Controls Header */}
-        <div className="p-4 border-b border-slate-800 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-slate-900/80">
+        <div className="p-4 border-b border-slate-800 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-[#0a1222]/80">
           {/* Tabs */}
-          <div className="flex items-center space-x-1 overflow-x-auto pb-1 md:pb-0">
+          <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 md:pb-0">
             <button
               onClick={() => setActiveTab('all')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === 'all'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/30'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
               All Unique ({records.length})
             </button>
             <button
               onClick={() => setActiveTab('tierA')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === 'tierA'
-                  ? 'bg-purple-600 text-white'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-500/30'
+                  : 'text-slate-400 hover:text-emerald-300 hover:bg-slate-800/60'
               }`}
             >
               Tier A ({records.filter((r) => r.tier === 'Tier A').length})
             </button>
             <button
               onClick={() => setActiveTab('tierB')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === 'tierB'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-cyan-600 text-white shadow-sm shadow-cyan-500/30'
+                  : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-800/60'
               }`}
             >
               Tier B ({records.filter((r) => r.tier === 'Tier B').length})
             </button>
             <button
               onClick={() => setActiveTab('tierC')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === 'tierC'
                   ? 'bg-slate-700 text-white'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
               }`}
             >
               Tier C ({records.filter((r) => r.tier === 'Tier C').length})
             </button>
             <button
               onClick={() => setActiveTab('duplicates')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === 'duplicates'
-                  ? 'bg-rose-600 text-white'
-                  : 'text-rose-400/80 hover:text-rose-300 hover:bg-slate-800'
+                  ? 'bg-rose-600 text-white shadow-sm shadow-rose-500/30'
+                  : 'text-rose-400/80 hover:text-rose-300 hover:bg-slate-800/60'
               }`}
             >
               Duplicates ({duplicates.length})
@@ -150,14 +150,14 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search leads..."
-                className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-[#070c17] border border-slate-700/80 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500"
               />
             </div>
 
             <button
               onClick={handleExport}
               disabled={displayedRecords.length === 0}
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md shadow-emerald-600/20 transition-all cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white text-xs font-semibold shadow-md shadow-emerald-600/20 hover:shadow-emerald-600/30 transition-all cursor-pointer disabled:opacity-50"
             >
               <Download className="h-3.5 w-3.5" />
               <span>Export CSV</span>
@@ -168,7 +168,7 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
         {/* Records Table */}
         <div className="overflow-x-auto max-h-[500px]">
           <table className="w-full text-left border-collapse text-xs">
-            <thead className="sticky top-0 bg-slate-950 border-b border-slate-800 text-slate-400 uppercase font-medium tracking-wider z-10">
+            <thead className="sticky top-0 bg-[#070b14]/95 border-b border-slate-800 text-slate-400 uppercase font-medium tracking-wider z-10 backdrop-blur-sm">
               <tr>
                 <th className="py-3 px-4">Contact</th>
                 <th className="py-3 px-4">Company & Title</th>
@@ -189,13 +189,13 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
                 displayedRecords.map((lead) => (
                   <tr
                     key={lead.id}
-                    className="hover:bg-slate-800/30 transition-colors cursor-pointer"
+                    className="hover:bg-cyan-500/5 transition-colors cursor-pointer"
                     onClick={() => setSelectedLead(lead)}
                   >
                     <td className="py-3 px-4 whitespace-nowrap">
                       <div className="font-semibold text-white">{lead.fullName || 'No Name'}</div>
                       {lead.cleanedFields.includes('firstName') || lead.cleanedFields.includes('lastName') ? (
-                        <span className="text-[10px] text-indigo-400 font-mono">Normalized Casing</span>
+                        <span className="text-[10px] text-cyan-400 font-mono">Normalized Casing</span>
                       ) : null}
                     </td>
 
@@ -211,19 +211,19 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
 
                     <td className="py-3 px-4 whitespace-nowrap">
                       {lead.isDuplicate ? (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/25">
                           Duplicate Flagged
                         </span>
                       ) : lead.tier === 'Tier A' ? (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-sm shadow-emerald-500/10">
                           Tier A &bull; Decision Maker
                         </span>
                       ) : lead.tier === 'Tier B' ? (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
                           Tier B &bull; Champion
                         </span>
                       ) : lead.tier === 'Tier C' ? (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-700 text-slate-300">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700/60">
                           Tier C &bull; General
                         </span>
                       ) : (
@@ -249,7 +249,7 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
                           e.stopPropagation();
                           setSelectedLead(lead);
                         }}
-                        className="p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-slate-800 rounded-lg transition-colors"
+                        className="p-1.5 text-slate-400 hover:text-cyan-400 hover:bg-slate-800/60 rounded-lg transition-colors cursor-pointer"
                       >
                         <Info className="h-4 w-4" />
                       </button>
@@ -264,16 +264,16 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
 
       {/* Lead Detail Modal */}
       {selectedLead && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-[#0b1324] border border-slate-800 rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-[#080e1c]">
               <div className="flex items-center space-x-2">
-                <Sparkles className="h-4 w-4 text-indigo-400" />
+                <Sparkles className="h-4 w-4 text-cyan-400" />
                 <h3 className="text-sm font-semibold text-white">Lead Intelligence Dossier</h3>
               </div>
               <button
                 onClick={() => setSelectedLead(null)}
-                className="text-slate-400 hover:text-white text-xs font-semibold px-2 py-1 rounded-lg hover:bg-slate-800"
+                className="text-slate-400 hover:text-white text-xs font-semibold px-2 py-1 rounded-lg hover:bg-slate-800 cursor-pointer"
               >
                 Close
               </button>
@@ -286,23 +286,23 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
               </div>
 
               {selectedLead.tier && (
-                <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-700/60 space-y-1">
-                  <div className="font-semibold text-indigo-300">
+                <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 space-y-1">
+                  <div className="font-semibold text-emerald-300">
                     ICP Classification: {selectedLead.tier}
                   </div>
-                  <p className="text-slate-400 text-xs">{selectedLead.aiReasoning}</p>
+                  <p className="text-emerald-200/80 text-xs">{selectedLead.aiReasoning}</p>
                 </div>
               )}
 
               {selectedLead.icebreaker && (
-                <div className="p-3.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 space-y-1">
-                  <div className="font-semibold text-indigo-300">AI Cold Outreach Hook</div>
+                <div className="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/25 space-y-1">
+                  <div className="font-semibold text-cyan-300">AI Cold Outreach Hook</div>
                   <p className="text-slate-200 italic">"{selectedLead.icebreaker}"</p>
                 </div>
               )}
 
               {selectedLead.duplicateReason && (
-                <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 space-y-1">
+                <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/25 space-y-1">
                   <div className="font-semibold text-rose-300">Duplicate Audit Reason</div>
                   <p className="text-rose-200">{selectedLead.duplicateReason}</p>
                 </div>
@@ -313,19 +313,19 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({ records, duplicates,
                   Normalized Contact Data
                 </span>
                 <div className="grid grid-cols-2 gap-2 text-slate-300 font-mono text-[11px]">
-                  <div className="p-2 rounded-lg bg-slate-950 border border-slate-800">
+                  <div className="p-2 rounded-lg bg-[#070c17] border border-slate-800">
                     <span className="text-slate-500 block text-[9px] uppercase font-sans">Email</span>
                     {selectedLead.email || 'None'}
                   </div>
-                  <div className="p-2 rounded-lg bg-slate-950 border border-slate-800">
+                  <div className="p-2 rounded-lg bg-[#070c17] border border-slate-800">
                     <span className="text-slate-500 block text-[9px] uppercase font-sans">Phone</span>
                     {selectedLead.phone || 'None'}
                   </div>
-                  <div className="p-2 rounded-lg bg-slate-950 border border-slate-800">
+                  <div className="p-2 rounded-lg bg-[#070c17] border border-slate-800">
                     <span className="text-slate-500 block text-[9px] uppercase font-sans">Website</span>
                     {selectedLead.website || 'None'}
                   </div>
-                  <div className="p-2 rounded-lg bg-slate-950 border border-slate-800">
+                  <div className="p-2 rounded-lg bg-[#070c17] border border-slate-800">
                     <span className="text-slate-500 block text-[9px] uppercase font-sans">Cleaned Fields</span>
                     {selectedLead.cleanedFields.join(', ') || 'None'}
                   </div>

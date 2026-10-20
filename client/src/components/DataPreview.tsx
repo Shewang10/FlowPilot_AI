@@ -13,22 +13,24 @@ export const DataPreview: React.FC<DataPreviewProps> = ({ data }) => {
   const previewRows = data.slice(0, 5);
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
-      <div className="px-5 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
-        <div className="flex items-center space-x-2 text-xs font-semibold text-slate-300">
-          <Eye className="h-4 w-4 text-indigo-400" />
+    <div className="rounded-2xl border border-slate-800 bg-[#0c1527]/70 overflow-hidden shadow-lg shadow-black/20">
+      <div className="px-5 py-3 border-b border-slate-800 flex items-center justify-between bg-[#0a1222]/80">
+        <div className="flex items-center space-x-2 text-xs font-semibold text-slate-200">
+          <Eye className="h-4 w-4 text-cyan-400" />
           <span>Raw Data Preview (First {previewRows.length} of {data.length} records)</span>
         </div>
-        <span className="text-[11px] text-slate-500">{headers.length} columns detected</span>
+        <span className="text-[11px] text-cyan-400 font-mono bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
+          {headers.length} columns detected
+        </span>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-xs">
           <thead>
-            <tr className="border-b border-slate-800 bg-slate-950/40 text-slate-400 uppercase font-medium tracking-wider">
+            <tr className="border-b border-slate-800 bg-[#070b14]/90 text-slate-400 uppercase font-medium tracking-wider">
               <th className="py-2.5 px-3 w-10 text-center">#</th>
               {headers.map((h) => (
-                <th key={h} className="py-2.5 px-3 font-medium whitespace-nowrap">
+                <th key={h} className="py-2.5 px-3 font-semibold whitespace-nowrap text-slate-300">
                   {h}
                 </th>
               ))}
@@ -36,7 +38,7 @@ export const DataPreview: React.FC<DataPreviewProps> = ({ data }) => {
           </thead>
           <tbody className="divide-y divide-slate-800/60 text-slate-300">
             {previewRows.map((row, idx) => (
-              <tr key={idx} className="hover:bg-slate-800/20 transition-colors">
+              <tr key={idx} className="hover:bg-cyan-500/5 transition-colors">
                 <td className="py-2 px-3 text-slate-500 text-center font-mono text-[10px]">
                   {idx + 1}
                 </td>
