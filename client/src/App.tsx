@@ -1,104 +1,176 @@
 import { useState } from 'react';
-import { Sparkles, FileSpreadsheet, ShieldCheck, Zap, ArrowRight, Settings } from 'lucide-react';
+import { Sparkles, AlertCircle } from 'lucide-react';
+import { Header } from './components/Header.tsx';
+import { SettingsModal } from './components/SettingsModal.tsx';
+import { FileUpload } from './components/FileUpload.tsx';
+import { DataPreview } from './components/DataPreview.tsx';
+import { TaskSelector } from './components/TaskSelector.tsx';
+import { ResultsTable } from './components/ResultsTable.tsx';
+import { useAutomation } from './hooks/useAutomation.ts';
 
 export default function App() {
-  const [isDemoMode] = useState(true);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const {
+    rawData,
+    setRawData,
+    filename,
+    setFilename,
+    isProcessing,
+    results,
+    duplicates,
+    summary,
+    errorMsg,
+    apiKey,
+    handleSaveApiKey,
+    isDemoMode,
+    handleToggleDemoMode,
+    cleaningOptions,
+    setCleaningOptions,
+    aiOptions,
+    setAiOptions,
+    loadSampleData,
+    resetAll,
+    runPipeline,
+  } = useAutomation();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
-      {/* Top Navigation */}
-      <header className="border-b border-slate-800 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              <Sparkles className="h-5 w-5 text-white" />
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+      {/* Top Header */}
+      <Header
+        isDemoMode={isDemoMode}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+        onLoadSample={loadSampleData}
+        isProcessing={isProcessing}
+      />
+
+      {/* Main Workspace */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Workspace Title & Value Proposition */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-slate-900">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center space-x-2">
+              <span>B2B Lead Intelligence & Cleaning Studio</span>
+            </h1>
+            <p className="text-slate-400 text-xs sm:text-sm mt-1 max-w-2xl">
+              Turn raw, messy scraper exports into client-ready B2B lists with zero-cost local deduplication, phone/email normalization, and AI-powered ICP tiering.
+            </p>
+          </div>
+
+          <div className="flex items-center space-x-2 text-xs text-slate-400">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            <span>Formula Injection Safe Exporter Active</span>
+          </div>
+        </div>
+
+        {/* Global Error Banner */}
+        {errorMsg && (
+          <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-start space-x-3 text-rose-300 text-xs">
+            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-rose-400" />
+            <div className="flex-1">
+              <span className="font-semibold block text-rose-200">Processing Notice</span>
+              <span>{errorMsg}</span>
             </div>
-            <div>
-              <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">
-                FlowPilot AI
+          </div>
+        )}
+
+        {/* Step 1 & Step 2 Studio Controls Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Left Column: Data Ingestion (5 cols) */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Step 1 &bull; Ingest Business Data
               </span>
-              <span className="ml-2 text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                Studio MVP
+              {rawData.length > 0 && (
+                <span className="text-[11px] text-indigo-400 font-mono">
+                  {rawData.length} rows loaded
+                </span>
+              )}
+            </div>
+
+            <FileUpload
+              onDataLoaded={(data, name) => {
+                setRawData(data);
+                setFilename(name);
+              }}
+              currentFilename={filename}
+              rowCount={rawData.length}
+              onReset={resetAll}
+              onLoadSample={loadSampleData}
+              isProcessing={isProcessing}
+            />
+
+            {rawData.length > 0 && <DataPreview data={rawData} />}
+          </div>
+
+          {/* Right Column: Automation Pipeline (7 cols) */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Step 2 &bull; Automation Pipeline
+              </span>
+              <span className="text-[11px] text-slate-400">
+                Ready to execute
               </span>
             </div>
-          </div>
 
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-xs px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/60 text-slate-300">
-              <span className={`h-2 w-2 rounded-full ${isDemoMode ? 'bg-emerald-400 animate-pulse' : 'bg-cyan-400'}`} />
-              <span>{isDemoMode ? 'Offline Demo Mode (100% Free)' : 'Gemini Flash Live'}</span>
-            </div>
-            <button className="p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition-colors">
-              <Settings className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-white mb-2">
-            AI Business Data Automation Studio
-          </h1>
-          <p className="text-slate-400 text-sm max-w-2xl">
-            Clean messy lead lists, deduplicate records across domains, classify into ICP tiers, and generate 1-line personalized outreach hooks — 100% free with local processing and Gemini Flash.
-          </p>
-        </div>
-
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-          <div className="p-5 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 transition-all">
-            <div className="h-10 w-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-4">
-              <FileSpreadsheet className="h-5 w-5" />
-            </div>
-            <h3 className="font-semibold text-white mb-1">Local Deterministic Cleaning</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Phone normalization, domain extraction, casing fixes, and email deduplication executed locally with 0 API token cost.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 transition-all">
-            <div className="h-10 w-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4">
-              <Zap className="h-5 w-5" />
-            </div>
-            <h3 className="font-semibold text-white mb-1">Gemini AI Enrichment</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Analyze prospect roles and company value propositions to craft high-conversion outreach icebreakers and score ICP fit.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 transition-all">
-            <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-            <h3 className="font-semibold text-white mb-1">Spreadsheet Security & Privacy</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Built-in protection against CSV formula injection attacks and strict privacy disclosures before external AI processing.
-            </p>
+            <TaskSelector
+              cleaningOptions={cleaningOptions}
+              onChangeCleaning={setCleaningOptions}
+              aiOptions={aiOptions}
+              onChangeAI={setAiOptions}
+              onRun={runPipeline}
+              isProcessing={isProcessing}
+              disabled={rawData.length === 0}
+              isDemoMode={isDemoMode}
+            />
           </div>
         </div>
 
-        {/* Placeholder Studio Container */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/30 p-8 text-center flex flex-col items-center justify-center">
-          <div className="h-12 w-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-3">
-            <Sparkles className="h-6 w-6" />
+        {/* Step 3: Processed Output Section */}
+        {summary && (
+          <div className="pt-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="h-6 w-6 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                  <Sparkles className="h-3.5 w-3.5" />
+                </div>
+                <h2 className="text-base font-bold text-white">
+                  Step 3 &bull; Cleaned Results & Intelligence
+                </h2>
+              </div>
+              <span className="text-xs text-slate-400 font-mono">
+                {summary.uniqueRowsRemaining} verified leads ready for export
+              </span>
+            </div>
+
+            <ResultsTable
+              records={results}
+              duplicates={duplicates}
+              summary={summary}
+            />
           </div>
-          <h2 className="text-lg font-semibold text-white mb-1">Studio Core Ready for Setup</h2>
-          <p className="text-xs text-slate-400 max-w-md mb-6">
-            Frontend scaffolding and UI system initialized. Ready to install client and server packages.
-          </p>
-          <div className="inline-flex items-center space-x-2 text-xs font-medium px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 cursor-pointer transition-colors">
-            <span>Continue Milestone 1</span>
-            <ArrowRight className="h-4 w-4" />
-          </div>
-        </div>
+        )}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 py-4 text-center text-xs text-slate-500">
-        FlowPilot AI Studio &bull; 100% Free-Tier Architecture &bull; Local & Offline Compatible
+      <footer className="border-t border-slate-900 bg-slate-950 py-6 text-center text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span>FlowPilot AI &bull; Portfolio-Grade AI Business Automation Studio</span>
+          <span>100% Free-Tier Architecture &bull; Built with React, Vite & Node.js</span>
+        </div>
       </footer>
+
+      {/* Settings Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        apiKey={apiKey}
+        onSaveApiKey={handleSaveApiKey}
+        isDemoMode={isDemoMode}
+        onToggleDemoMode={handleToggleDemoMode}
+      />
     </div>
   );
 }
