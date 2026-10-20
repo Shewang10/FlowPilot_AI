@@ -1,0 +1,12 @@
+First Name,Last Name,Company,Title,Email,Phone,Website,Notes
+JOHN,DOE,Acme Corp,Vice President of Sales,john.doe@acmecorp.com,+1 (555) 019-2834,https://www.acmecorp.com,"Leading B2B manufacturing firm looking to expand sales pipeline."
+sarah,smith,Global Logistics LLC,Operations Director,sarah.smith@globallogistics.io,555.019.2835,http://globallogistics.io,"Managing supply chain distribution across 12 hubs."
+John,Doe,Acme Corporation,VP Sales,john.doe@acmecorp.com,555-019-2834,acmecorp.com,"Duplicate entry with slightly different company formatting."
+michael,CHANG,Summit Health,Chief Technology Officer,mchang@summithealth.org,(555) 019-4829,https://summithealth.org,"Healthcare provider scaling their electronic health record system."
+Emily,watson,Acme Corp,Marketing Manager,emily.watson@acmecorp.com,+1 555 019 9921,www.acmecorp.com,"Same domain as Acme Corp, junior marketing contact."
+David,Miller,Miller & Sons Law,Managing Partner,david@millerlaw.example,5550198822,http://www.millerlaw.example/,"Regional commercial litigation and corporate advisory practice."
+ALEX,JOHNSON,Apex Cloud Solutions,Head of Engineering,alex.j@apexcloud.co,555-019-7711,https://apexcloud.co,"Cloud migration agency helping fintech startups adopt AWS."
+Alex,Johnson,Apex Cloud,VP Engineering,alex.j@apexcloud.co,555-019-7711,apexcloud.co,"Duplicate record from secondary conference attendee list."
+lisa,ANDERSON,Bright Horizon Retail,Director of Merchandising,lisa.a@brighthorizon.store,+1-555-019-6633,brighthorizon.store,"E-commerce brand scaling sustainable apparel lines."
+Robert,Taylor,Taylor Capital Group,Principal Investor,robert@taylorcap.example,555 019 5544,https://taylorcap.example,"Private equity firm investing in lower middle-market B2B services."
+=1+1,Malicious,Injected Co,Hacker,test@injected.com,555-000-0000,http://test.com,"Formula injection security test record."
