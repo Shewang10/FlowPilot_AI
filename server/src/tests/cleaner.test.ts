@@ -16,6 +16,14 @@ test('Text and casing normalization', async (t) => {
     assert.equal(toTitleCase('o\'connor'), "O'Connor");
     assert.equal(toTitleCase('smith-jones'), 'Smith-Jones');
   });
+
+  await t.test('preserves business abbreviations in uppercase', () => {
+    assert.equal(toTitleCase('VP SALES'), 'VP Sales');
+    assert.equal(toTitleCase('vice president of sales'), 'Vice President Of Sales');
+    assert.equal(toTitleCase('ceo'), 'CEO');
+    assert.equal(toTitleCase('cto of engineering'), 'CTO Of Engineering');
+    assert.equal(toTitleCase('svp of revenue'), 'SVP Of Revenue');
+  });
 });
 
 test('Email normalization and validation', async (t) => {

@@ -1,14 +1,33 @@
 import { cleanText, extractDomain } from '../utils/sanitizer.js';
 import type { RawLead, NormalizedLead, CleaningOptions } from '../types/data.js';
 
+// Common business abbreviations that should stay uppercase after Title-Casing.
+const UPPERCASE_ABBREVS = new Set([
+  'VP', 'SVP', 'EVP', 'CEO', 'CFO', 'CTO', 'COO', 'CMO', 'CRO', 'CIO', 'CISO',
+  'HR', 'PR', 'BD', 'IT', 'B2B', 'B2C', 'SaaS', 'AI', 'ML', 'API', 'SEO',
+  'SDR', 'BDR', 'AE', 'LLC', 'LLP', 'Ltd', 'Inc', 'Co', 'Corp'
+]);
+
 /**
- * Capitalizes a word respecting hyphens and apostrophes (e.g., "o'connor", "smith-jones").
+ * Capitalizes a string using Title Case while preserving common business abbreviations.
+ * Respects hyphens (e.g., "smith-jones" → "Smith-Jones") and apostrophes (e.g., "o'connor" → "O'Connor").
  */
 export function toTitleCase(input: string): string {
   if (!input) return '';
   const trimmed = cleanText(input).toLowerCase();
 
-  return trimmed.replace(/(?:^|[\s\-\'\"])\S/g, (char) => char.toUpperCase());
+  return trimmed
+    .replace(/(?:^|[\s\-\'\"])\S/g, (char) => char.toUpperCase())
+    .split(' ')
+    .map((word) => {
+      const upper = word.toUpperCase();
+      if (UPPERCASE_ABBREVS.has(upper)) return upper;
+      // Also check without punctuation suffix (e.g., "vp," → "VP,")
+      const bare = word.replace(/[^a-zA-Z]/g, '').toUpperCase();
+      if (UPPERCASE_ABBREVS.has(bare)) return upper;
+      return word;
+    })
+    .join(' ');
 }
 
 /**
