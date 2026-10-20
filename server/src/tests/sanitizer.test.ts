@@ -48,3 +48,4 @@ test('extractDomain utility', async (t) => {
     assert.equal(extractDomain('sarah.smith@globallogistics.io'), 'globallogistics.io');
   });
 });
+

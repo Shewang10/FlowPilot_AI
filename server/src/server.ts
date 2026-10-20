@@ -35,3 +35,4 @@ app.listen(PORT, () => {
   console.log(`[FlowPilot AI Server] Health check: http://localhost:${PORT}/api/health`);
   console.log(`[FlowPilot AI Server] AI Status: ${process.env.GEMINI_API_KEY ? 'Live API Key detected' : 'Demo/Mock Mode (Free)'}`);
 });
+

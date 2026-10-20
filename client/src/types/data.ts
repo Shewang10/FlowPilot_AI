@@ -56,3 +56,4 @@ export interface ProcessResponse {
   summary: ProcessSummary;
   errors?: string[];
 }
+

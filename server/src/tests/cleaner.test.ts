@@ -78,3 +78,4 @@ test('Lead record auto-mapping and normalization', async (t) => {
     assert.ok(normalized.cleanedFields.includes('phone'));
   });
 });
+

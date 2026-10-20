@@ -77,3 +77,4 @@ export function exportLeadsToCsv(records: NormalizedLead[], filename = 'flowpilo
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
+
